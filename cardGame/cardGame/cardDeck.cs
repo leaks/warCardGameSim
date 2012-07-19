@@ -8,6 +8,12 @@ namespace cardGame
     class cardDeck
     {
         private ArrayList cards = new ArrayList();
+        private Random rand;
+
+        public cardDeck(Random rand)
+        {
+            this.rand = rand;
+        }
 
         public void Init()
         {
@@ -24,7 +30,6 @@ namespace cardGame
 
         public void Shuffle()
         {
-            Random rand = new Random();
             KeyValuePair<int, int> temp;
             int index1, index2;
             for (int i = 0; i < (cards.Count * 2); i++)

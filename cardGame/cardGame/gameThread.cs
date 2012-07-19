@@ -10,12 +10,12 @@ namespace cardGame
     {
         private ManualResetEvent doneEvent;
         private bool shuffle;
+        private Random rand;
+        private cardDeck hand1;
+        private cardDeck hand2;
 
-        private cardDeck hand1 = new cardDeck();
-        private cardDeck hand2 = new cardDeck();
-
-        private cardDeck pile1 = new cardDeck();
-        private cardDeck pile2 = new cardDeck();
+        private cardDeck pile1;
+        private cardDeck pile2;
 
         private int warCount1 = 0;
         private int battleCount1 = 0;
@@ -26,7 +26,7 @@ namespace cardGame
 
         private void setup()
         {
-            cardDeck deck = new cardDeck();
+            cardDeck deck = new cardDeck(rand);
             deck.Init();
             deck.Shuffle();
 
@@ -37,10 +37,16 @@ namespace cardGame
             }
         }
 
-        public gameThread(bool shuffle, ManualResetEvent doneEvent)
+        public gameThread(bool shuffle, Random rand, ManualResetEvent doneEvent)
         {
             this.shuffle = shuffle;
             this.doneEvent = doneEvent;
+            this.rand = rand;
+
+            this.hand1 = new cardDeck(rand);
+            this.hand2 = new cardDeck(rand);
+            this.pile1 = new cardDeck(rand);
+            this.pile2 = new cardDeck(rand);
 
         }
 
@@ -92,7 +98,7 @@ namespace cardGame
                         if(hand2.Size > 0)
                             card2 = hand2.Next();
 
-                    }while(card1.Value != card2.Value);
+                    }while(card1.Value == card2.Value);
 
                     if (card1.Value > card2.Value)
                     {

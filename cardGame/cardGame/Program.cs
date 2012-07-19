@@ -9,13 +9,21 @@ namespace cardGame
     {
         static void Main(string[] args)
         {
-            ManualResetEvent[] doneEvents = new ManualResetEvent[3];
-            gameThread[] games = new gameThread[3];
+            ManualResetEvent[] doneEvents = new ManualResetEvent[6];
+            gameThread[] games = new gameThread[6];
+            Random rand = new Random();
 
             for (int i = 0; i < 3; i++)
             {
                 doneEvents[i] = new ManualResetEvent(false);
-                gameThread game = new gameThread(true, doneEvents[i]);
+                gameThread game = new gameThread(true, rand, doneEvents[i]);
+                ThreadPool.QueueUserWorkItem(game.run, i);
+            }
+
+            for (int i = 3; i < 6; i++)
+            {
+                doneEvents[i] = new ManualResetEvent(false);
+                gameThread game = new gameThread(false, rand, doneEvents[i]);
                 ThreadPool.QueueUserWorkItem(game.run, i);
             }
 
