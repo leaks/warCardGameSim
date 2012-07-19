@@ -22,12 +22,12 @@ namespace cardGame
             cards.Add(new KeyValuePair<int, int>(0, 15));
         }
 
-        public void Shuffle(int shuffles = 5)
+        public void Shuffle()
         {
             Random rand = new Random();
             KeyValuePair<int, int> temp;
             int index1, index2;
-            for (int i = 0; i < shuffles; i++)
+            for (int i = 0; i < (cards.Count * 2); i++)
             {
                 index1 = rand.Next(0, cards.Count);
                 index2 = rand.Next(0, cards.Count);

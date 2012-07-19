@@ -28,7 +28,7 @@ namespace cardGame
         {
             cardDeck deck = new cardDeck();
             deck.Init();
-            deck.Shuffle(25);
+            deck.Shuffle();
 
             for (int i = 0; i < deck.Size - 1; i++)
             {
@@ -70,10 +70,12 @@ namespace cardGame
                         if (hand1.Size == 0 && pile1.Size > 0)
                         {
                             hand1.Rebuild(pile1.Dump());
-                            if (shuffle)
+                            if (shuffle && hand1.Size > 0)
                                 hand1.Shuffle();
+                            handReload1++;
                         }
-                        card1 = hand1.Next();
+                        if(hand1.Size > 0)
+                            card1 = hand1.Next();
 
                         count = (hand2.Size < 3 ? hand2.Size : 3);
                         for (int i = 0; i < count; i++)
@@ -83,10 +85,12 @@ namespace cardGame
                         if (hand2.Size == 0 && pile2.Size > 0)
                         {
                             hand2.Rebuild(pile2.Dump());
-                            if (shuffle)
+                            if (shuffle && hand2.Size > 0)
                                 hand2.Shuffle();
+                            handReload2++;
                         }
-                        card2 = hand2.Next();
+                        if(hand2.Size > 0)
+                            card2 = hand2.Next();
 
                     }while(card1.Value != card2.Value);
 
@@ -128,15 +132,17 @@ namespace cardGame
                 if (hand1.Size == 0 && pile1.Size > 0)
                 {
                     hand1.Rebuild(pile1.Dump());
-                    if (shuffle)
-                        hand1.Shuffle(new Random().Next(0, 50));
+                    if (shuffle && hand1.Size > 0)
+                        hand1.Shuffle();
+                    handReload1++;
                 }
 
                 if (hand2.Size == 0 && pile2.Size > 0)
                 {
                     hand2.Rebuild(pile2.Dump());
-                    if (shuffle)
-                        hand2.Shuffle(new Random().Next(0, 50));
+                    if (shuffle && hand2.Size > 0)
+                        hand2.Shuffle();
+                    handReload2++;
                 }
             }
             System.Console.WriteLine("Shuffled: " + (shuffle ? "True" : "False") + " Battles - Hand1: " + battleCount1.ToString() + " Hand2: " + battleCount2.ToString() + " Wars - Hand1: " + warCount1.ToString() + " Hand2: " + warCount2.ToString() + " Reloads - Hand1: " + handReload1.ToString() + " Hand2: " + handReload2.ToString());
